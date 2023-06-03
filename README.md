@@ -10,6 +10,8 @@ https://benjamin-asdf.github.io/lirios/
 bb dev
 ```
 
+Visit http://localhost:1337
+
 Then `cider-connect-clj` localhost 1339.
 
 ```elisp
