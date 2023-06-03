@@ -6,6 +6,15 @@
 bb dev
 ```
 
+Then `cider-connect-clj` localhost 1339.
+
+```elisp
+(defun mm/connect-clj-scittle ()
+  (interactive)
+  (cider-connect-clj '(:host "localhost" :port 1339)))
+```
+
+
 # favicon.ico
 
 Generated with imagemagick
