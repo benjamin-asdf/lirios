@@ -1,5 +1,9 @@
 # lirios
 
+Visit:
+
+https://benjamin-asdf.github.io/lirios/
+
 # Dev server
 
 ```sh
