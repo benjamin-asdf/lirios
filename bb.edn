@@ -1,0 +1,16 @@
+{:deps {org.babashka/http-server {:mvn/version "0.1.11"}
+        io.github.babashka/sci.nrepl {:git/sha "c14b5b4ef4390ff206cdb71f763f327799f5e853"}}
+ :tasks
+ {serve
+  {:doc "Serve static assets"
+   :requires ([babashka.http-server :as server])
+   :task (server/exec {:port 1337 :dir "."})}
+  browser-nrepl
+  {:doc "Start browser nREPL"
+   :requires ([sci.nrepl.browser-server :as bp])
+   :task (bp/start! {})}
+  dev
+  {:task (do
+           (run 'browser-nrepl)
+           (run 'serve)
+           (deref (promise)))}}}
