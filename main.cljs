@@ -15,7 +15,7 @@
       (= shape "rect") ^{:key (str x y size color)} [:rect {:x x :y y :width (max 1 size) :height (max 1 size) :fill color}])))
 
 (defn gen-art [state]
-  (let [new-art (into [] (repeatedly 10 random-shape))
+  (let [new-art (repeatedly 10 random-shape)
         new-history
         (conj (-> state :art :history) new-art)
         new-cursor (dec (count new-history))]
@@ -30,7 +30,9 @@
    (gen-art {:art {:history[]}})))
 
 (defn current-art [state]
-  (get-in state [:art :history (-> state :art :cursor)]))
+  (get-in state
+          [:art :history
+           (-> state :art :cursor)]))
 
 (defn where-ui [state]
   [:span
@@ -59,6 +61,7 @@
                            (on-file-drop content)))))))
     :type "file"}])
 
+
 (defn view []
   (fn []
     [:div
@@ -69,15 +72,15 @@
          (reset! state (read-string content)))}]
      ;; export state to file
      [:button
-        {:on-click
-         (fn []
-           (let [content (pr-str @state)
-                   blob (js/Blob. #js [content] #js {:type "text/plain"})
-                   url (js/URL.createObjectURL blob)
-                   a (.createElement js/document "a")]
-             (set! (.-href a) url)
-             (set! (.-download a) "state.edn")
-             (.click a)))}
+      {:on-click
+       (fn []
+         (let [content (pr-str @state)
+               blob (js/Blob. #js [content] #js {:type "text/plain"})
+               url (js/URL.createObjectURL blob)
+               a (.createElement js/document "a")]
+           (set! (.-href a) url)
+           (set! (.-download a) "state.edn")
+           (.click a)))}
       "Export State"]
      [:div
       [:svg {:width "100%" :height "400px" :margin-top "5px"}
@@ -106,11 +109,11 @@
 
 (rdom/render [view] (.getElementById js/document "app"))
 
-;;
-;; (js/setInterval
-;;  (fn []
-;;    (swap! state gen-art))
-;;  500)
+
+(js/setInterval
+ (fn []
+   (swap! state gen-art))
+ 1000)
 
 (comment
   (keys (deref state))
